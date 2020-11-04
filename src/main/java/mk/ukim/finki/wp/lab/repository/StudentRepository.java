@@ -28,4 +28,18 @@ public class StudentRepository {
     public List<Student> findAllByNameOrSurname(String text){
         return students.stream().filter(r->r.getName().contains(text)||r.getSurname().contains(text)).collect(Collectors.toList());
     }
+
+    public Student findByUsername(String text){
+        return (Student)students.stream().filter(r->r.getUsername().equals(text));
+    }
+
+    public Student save(Student s) {
+        if (s==null || s.getName().isEmpty()) {
+            return null;
+        }
+        students.removeIf(r->r.getName().equals(s.getName()));
+        students.add(s);
+        return s;
+    }
+
 }

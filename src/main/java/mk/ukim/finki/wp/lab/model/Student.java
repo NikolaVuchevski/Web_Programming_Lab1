@@ -23,4 +23,8 @@ public class Student {
     public String getSurname() {
         return surname;
     }
+
+    public String getUsername() {
+        return username;
+    }
 }
