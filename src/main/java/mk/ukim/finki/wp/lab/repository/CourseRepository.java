@@ -40,4 +40,8 @@ public class CourseRepository {
         course.setStudents(students);
         return course;
     }
+
+    public long getCourseId(){
+        return courses.size();
+    }
 }
