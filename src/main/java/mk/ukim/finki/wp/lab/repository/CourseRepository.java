@@ -26,22 +26,18 @@ public class CourseRepository {
     }
 
     public Course findById(Long courseId){
-        return (Course)courses.stream().filter(r->r.getCourseId().equals(courseId));
+        return courses.stream().filter(r->r.getCourseId().equals(courseId)).findFirst().get();
     }
 
     public List<Student> findAllStudentsByCourse(Long courseId){
-        Course course=findById(courseId);
+        Course course = courses.stream().filter(r->r.getCourseId().equals(courseId)).findFirst().get();
         return course.getStudents();
     }
 
     public Course addStudentToCourse(Student student, Course course){
-        List<Student> students=findAllStudentsByCourse(course.getCourseId());
-        students.add(student);
-        course.setStudents(students);
+        Course c = courses.stream().filter(r->r.getCourseId().equals(course.getCourseId())).findFirst().get();
+        c.getStudents().removeIf(r->r.getUsername().equals(student.getUsername()));
+        c.getStudents().add(student);
         return course;
-    }
-
-    public long getCourseId(){
-        return courses.size();
     }
 }

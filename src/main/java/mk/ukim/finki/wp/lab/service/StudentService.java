@@ -1,4 +1,4 @@
-package mk.ukim.finki.wp.lab.sevice;
+package mk.ukim.finki.wp.lab.service;
 
 import mk.ukim.finki.wp.lab.model.Student;
 
@@ -8,4 +8,5 @@ public interface StudentService {
     List<Student> listAll();
     List<Student> searchByNameOrSurname(String text);
     Student save(String username, String password, String name, String surname);
+    Student findStudentByUsername(String username);
 }

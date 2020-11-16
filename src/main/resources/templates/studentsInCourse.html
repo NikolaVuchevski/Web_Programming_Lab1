@@ -1,0 +1,22 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml" lang="mk">
+<head>
+    <meta charset="utf-8">
+    <title>WP lab - Students in Course</title>
+
+</head>
+<body>
+<header>
+    <h1>Students in Course </h1>
+</header>
+<section>
+    <div th:each="course : ${courses}">
+        <div th:text="${course.name}"></div>
+        <ul>
+            <li th:each="student : ${course.students}" th:text="${student.name + ' ' + student.surname + ' (' + student.username + ')'}"></li>
+        </ul>
+    </div>
+    <a href="/listCourses">Back</a>
+</section>
+
+</body>
+</html>

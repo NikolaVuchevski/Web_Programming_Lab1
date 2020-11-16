@@ -1,10 +1,11 @@
-package mk.ukim.finki.wp.lab.sevice.impl;
+package mk.ukim.finki.wp.lab.service.impl;
 
 import mk.ukim.finki.wp.lab.model.Course;
 import mk.ukim.finki.wp.lab.model.Student;
+import mk.ukim.finki.wp.lab.model.exceptions.InvalidStudentOrCourseException;
 import mk.ukim.finki.wp.lab.repository.CourseRepository;
 import mk.ukim.finki.wp.lab.repository.StudentRepository;
-import mk.ukim.finki.wp.lab.sevice.CourseService;
+import mk.ukim.finki.wp.lab.service.CourseService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<Course> findAll() {
+    public List<Course> listAll() {
         return courseRepository.findAllCourses();
     }
 
@@ -31,17 +32,17 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public Course addStudentInCourse(String username, Long courseId) {
-        if(username==null||username.isEmpty()) {
-            throw new IllegalArgumentException();
+        Course course = courseRepository.findById(courseId);
+        Student student = studentRepository.findByUsername(username);
+        if (course == null || student == null) {
+            throw new InvalidStudentOrCourseException();
         }
-        Student student=studentRepository.findByUsername(username);
-        Course course=courseRepository.findById(courseId);
         courseRepository.addStudentToCourse(student, course);
         return course;
     }
 
     @Override
-    public Long getCourseId() {
-        return courseRepository.getCourseId();
+    public Course findById(Long courseId) {
+        return courseRepository.findById(courseId);
     }
 }
