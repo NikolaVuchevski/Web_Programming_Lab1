@@ -17,11 +17,11 @@ public class RedirectFilter implements Filter {
 
         String path = request.getServletPath();
 
-        if(path.equals("/listCourses") || courseId!=null){
+        if(path.equals("/courses") || courseId!=null){
             filterChain.doFilter(servletRequest, servletResponse);
         }
         else {
-            response.sendRedirect("listCourses");
+            response.sendRedirect("courses");
         }
     }
 }

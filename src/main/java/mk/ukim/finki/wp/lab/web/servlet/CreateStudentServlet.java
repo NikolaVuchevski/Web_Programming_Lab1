@@ -1,6 +1,6 @@
-package mk.ukim.finki.wp.lab.web;
+package mk.ukim.finki.wp.lab.web.servlet;
 
-import mk.ukim.finki.wp.lab.service.CourseService;
+import mk.ukim.finki.wp.lab.service.StudentService;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 
@@ -11,29 +11,30 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "CoursesListSevlet", urlPatterns = "/listCourses")
-public class CoursesListServlet extends HttpServlet {
+@WebServlet(name = "CreateStudentServlet", urlPatterns = "/createStudent")
+public class CreateStudentServlet extends HttpServlet{
 
     private final SpringTemplateEngine springTemplateEngine;
-    private final CourseService courseService;
+    private final StudentService studentService;
 
-
-    public CoursesListServlet(SpringTemplateEngine springTemplateEngine, CourseService courseService) {
+    public CreateStudentServlet(SpringTemplateEngine springTemplateEngine, StudentService studentService) {
         this.springTemplateEngine = springTemplateEngine;
-        this.courseService = courseService;
+        this.studentService = studentService;
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         WebContext context = new WebContext(req, resp, req.getServletContext());
-        context.setVariable("courses", courseService.listAll());
-        springTemplateEngine.process("listCourses.html", context, resp.getWriter());
+        springTemplateEngine.process("createStudent", context, resp.getWriter());
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String courseId = req.getParameter("courseId");
-        req.getSession().setAttribute("courseId", courseId);
+        String username = req.getParameter("username");
+        String password = req.getParameter("password");
+        String name = req.getParameter("name");
+        String surname = req.getParameter("surname");
+        studentService.save(username, password, name, surname);
         resp.sendRedirect("/addStudent");
     }
 }

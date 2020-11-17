@@ -2,11 +2,13 @@ package mk.ukim.finki.wp.lab.repository;
 
 import mk.ukim.finki.wp.lab.model.Course;
 import mk.ukim.finki.wp.lab.model.Student;
+import mk.ukim.finki.wp.lab.model.Teacher;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class CourseRepository {
@@ -14,11 +16,11 @@ public class CourseRepository {
 
     @PostConstruct
     public void init(){
-        courses.add(new Course(1l, "Diskretna Matematika 1","DM1"));
-        courses.add(new Course(2l, "Strukturno Programiranje","SP"));
-        courses.add(new Course(3l, "Objektno-Orientirano Programiranje","OOP"));
-        courses.add(new Course(4l, "Napredno Programiranje","NP"));
-        courses.add(new Course(5l, "Web Programiranje","WP"));
+        courses.add(new Course("Diskretna Matematika 1","DM1"));
+        courses.add(new Course("Strukturno Programiranje","SP"));
+        courses.add(new Course("Objektno-Orientirano Programiranje","OOP"));
+        courses.add(new Course("Napredno Programiranje","NP"));
+        courses.add(new Course("Web Programiranje","WP"));
     }
 
     public List<Course> findAllCourses(){
@@ -40,4 +42,15 @@ public class CourseRepository {
         c.getStudents().add(student);
         return course;
     }
+
+    public Optional<Course> save(String name, String description, Teacher teacher) {
+        Course course = new Course(name, description, teacher);
+        courses.add(course);
+        return Optional.of(course);
+    }
+
+    public void deleteById(Long id) {
+        courses.removeIf(i -> i.getCourseId().equals(id));
+    }
+
 }
