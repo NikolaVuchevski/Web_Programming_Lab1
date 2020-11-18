@@ -1,24 +1,14 @@
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8">
-    <title>Balloon Order page - Welcome and choose a Balloon</title>
-    <style type="text/css">
-        body {
-            width: 800px;
-            margin: auto;
-        }
-    </style>
+    <meta charset="UTF-8"/>
+    <title>Products</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </head>
 <body>
-<header>
-    <h1>Welcome to our Courses App</h1>
-</header>
-<h2>Course list</h2>
 <div class="container mb-4">
     <div class="row">
         <div class="col-12" th:if="${courses.size() > 0}">
@@ -32,20 +22,17 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="course: ${courses}">
+                    <tr th:each="course : ${courses}">
                         <td th:text="${course.getName()}"></td>
                         <td th:text="${course.getDescription()}"></td>
                         <td th:text="${course.getTeacher() != null}
-                        ? ${course.getTeacher().getName()} : 'No Teacher'"></td>
+                            ? ${course.getTeacher().getName()} : 'No teacher'"></td>
                         <td class="text-right">
-                            <form th:method="delete" th:action="@{'/courses/delete/{id}' (id=${course.getCourseId()})}">
-                                <button type="submit" class="btn btn-sm btn-danger">
-                                    <i class="fa fa-trash">Delete</i>
-                                </button>
+                            <form th:method="delete"
+                            th:action="@{'/courses/delete/{id}' (id=${course.getCourseId()})}">
+                                <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash">Delete</i></button>
                             </form>
-                            <a class="btn btn-sm btn-info"
-                               th:href="@{'/courses/edit-form/{id}' (id=${course.getCourseId()})}">
-                                <i class="fa fa-trash">Edit</i></a>
+                            <a th:href="@{'/courses/edit-form/{id}' (id=${course.getCourseId()})}" class="btn btn-sm btn-info"><i class="fa fa-trash">Edit</i></a>
                         </td>
                     </tr>
                     </tbody>
@@ -55,22 +42,18 @@
         <div class="col mb-3">
             <div class="row">
                 <div class="col-sm-12 col-md-12">
-                    <a href="/courses/add" class="btn btn-block btn-dark">Add new course</a>
+                    <a href="/courses/add-form" class="btn btn-block btn-dark">Add new course</a>
                 </div>
             </div>
         </div>
     </div>
+    <form th:method="post" th:action="@{/courses}">
+        <div th:each="course : ${courses}">
+            <input type="radio" name="courseId" th:value="${course.getCourseId()}" th:text="${course.getName()+ ' (' + course.getDescription()+')'}"> <br/>
+        </div>
+        <br/>
+        <input type="submit" value="Submit">
+    </form>
 </div>
-<form th:action="@{/courses}" th:method="POST">
-    <h2>Choose balloon color:</h2>
-    <input type="radio" name="course" value="Red Balloon"> Red Balloon<br/>
-    <input type="radio" name="course" value="Green Balloon"> Green Balloon<br/>
-    <input type="radio" name="course" value="Yellow Balloon"> Yellow Balloon<br/>
-    <input type="radio" name="course" value="Blue Balloon"> Blue Balloon<br/>
-
-    <br/>
-    <!--            <a th:href="@{/selectBalloon}" th:method="GET">Submit</a>-->
-    <input type="submit" value="Submit">
-</form>
 </body>
 </html>

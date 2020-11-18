@@ -9,10 +9,13 @@
 </header>
 <section>
     <form method="POST" action="/courses/add">
-        <label for="name">Balloon name</label><input type="text" id="name" name="name" th:value="(${course} != null ? ${course.getName()} : '')" required placeholder="Enter course name">
+        <label for="name">Course name</label>
+        <input type="text" id="name" name="name"
+               th:value="(${course} != null ? ${course.getName()} : '')" required placeholder="Enter course name">
         <label for="description">Course description</label>
-        <input type="text" id="description" name="description" th:value="(${course} != null ? ${course.getDescription()} : '')" required placeholder="Enter course description">
-        <label>Manufacturer</label>
+        <input type="text" id="description" name="description"
+               th:value="(${course} != null ? ${course.getDescription()} : '')" required placeholder="Enter course description">
+        <label>Teacher</label>
         <select name="id">
             <option th:if="${course} != null"
                     th:selected="${course.getTeacher() != null

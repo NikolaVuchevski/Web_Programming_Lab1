@@ -44,6 +44,7 @@ public class CourseRepository {
     }
 
     public Optional<Course> save(String name, String description, Teacher teacher) {
+        courses.removeIf(c->c.getName().equals(name)||c.getDescription().equals(description));
         Course course = new Course(name, description, teacher);
         courses.add(course);
         return Optional.of(course);
