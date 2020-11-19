@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "StudentEnrollmentSummary", urlPatterns = "/studentEnrollmentSummary")
+@WebServlet(name = "StudentEnrollmentSummary", urlPatterns = "/StudentEnrollmentSummary")
 public class StudentEnrollmentSummary extends HttpServlet {
 
     private final SpringTemplateEngine springTemplateEngine;
@@ -26,7 +26,7 @@ public class StudentEnrollmentSummary extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         WebContext context = new WebContext(req, resp, req.getServletContext());
         String username = req.getParameter("size");
-        Long courseId = Long.parseLong(String.valueOf(req.getSession().getAttribute("courseId")));
+        Long courseId = Long.parseLong(String.valueOf(req.getSession().getAttribute("course")));
         courseService.addStudentInCourse(username, courseId);
         context.setVariable("courses", courseService.listAll());
         springTemplateEngine.process("studentsInCourse.html", context, resp.getWriter());
