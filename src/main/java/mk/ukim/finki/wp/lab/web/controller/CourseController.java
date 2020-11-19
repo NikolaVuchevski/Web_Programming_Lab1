@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 @Controller
 @RequestMapping("/courses")
@@ -28,7 +31,14 @@ public class CourseController {
             model.addAttribute("hasError", true);
             model.addAttribute("error", error);
         }
-        model.addAttribute("courses", courseService.listAll());
+        List<Course> courses=courseService.listAll();
+        Collections.sort(courses, new Comparator<Course>() {
+            @Override
+            public int compare(Course c, Course t) {
+                return CharSequence.compare(c.getName(), t.getName());
+            }
+        });
+        model.addAttribute("courses", courses);
         return "courses";
     }
 
